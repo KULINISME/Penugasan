@@ -21,11 +21,72 @@
         <!-- NAVBAR END -->
 
         <!-- CONTENT -->
-        <table id="kotakku" border="1">
+        <hr>
+        <p class="tag" align="center">Biodata Mahasiswa Teknik informatika <br> Angkatan 2024</p>
 
-        </table>
+        <table id="kotakku"></table>
+        <script>
+            // Fungsi untuk meng-generate list mahasiswa dari JSON
+            function generateStudentList(data) {
+                const studentList = document.getElementById('kotakku');
+                data.forEach(student => {
+                    const studentDiv = document.createElement('div');
+                    const nomor = student.no.split('');
+                    if(nomor[0]==0){
+                        nomor[0] = '+62';
+                    }
+                    const teleponacc = nomor.join('');
+                    studentDiv.innerHTML = `<div class="friend">
+                <div class="f-foto">
+                    <img class="fphoto" src="${student.fotoselfie}" alt="${student.nama}">
+                </div>
+                <div class="bio">
+                    <table class="tb-data">
+                        <tr>
+                            <td class="td" width="150px">Nama</td>
+                            <td>:</td>
+                            <td>${student.nama}</td>
+                        </tr>
+                        <tr>
+                            <td>Nim</td>
+                            <td>:</td>
+                            <td>${student.nim}</td>
+                        </tr>
+                        <tr>
+                            <td>Alamat</td>
+                            <td>:</td>
+                            <td>${student.alamat}</td>
+                        </tr>
+                        <tr>
+                            <td>TTL</td>
+                            <td>:</td>
+                            <td>${student.ttl}</td>
+                        </tr>
+                        <tr>
+                            <td>Telepon</td>
+                            <td>:</td>
+                            <td><a href="https://wa.me/${teleponacc}" target="_blank"> ${teleponacc}<a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>      
+                `;
+    
+                    studentList.appendChild(studentDiv);
+                });
+            }
+            // Mengambil file JSON menggunakan fetch API
+            fetch('data.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => generateStudentList(data))
+                .catch(error => console.error('There was a problem with the fetch operation:', error));
+        </script>
 
-        <script src="script.js"></script>
         <!-- CONTENT END -->
 
         <!-- FOOTER BEGIN -->
@@ -34,10 +95,6 @@
         </div>
         <!-- FOOTER END -->
     </div>
-</body>
-
-</html>
-
 </body>
 
 </html>
